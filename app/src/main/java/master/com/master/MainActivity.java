@@ -4,11 +4,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    @InjectView(R.id.textview) TextView tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
