@@ -12,7 +12,10 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/tb_custom"
         android:background="@android:color/white"
-        ></LinearLayout>
+        >
+
+
+        </LinearLayout>
 
 
 </RelativeLayout>

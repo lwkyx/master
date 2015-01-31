@@ -6,7 +6,7 @@
     </style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat">
-        <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
     </style>
 </resources>
