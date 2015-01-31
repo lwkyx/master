@@ -22,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         setSupportActionBar(toolbar);
         toolbar.setLogo(R.drawable.ic_launcher);
+        toolbar.setTitle("旅游助手");
 
 
     }
