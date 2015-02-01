@@ -20,6 +20,7 @@
             android:layout_height="wrap_content"
             android:text="New Button"
             android:id="@+id/button"
+            android:onClick="test"
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 

@@ -1,12 +1,20 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="AppTheme.Base">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!--返回键样式-->
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+
     </style>
 
     <style name="AppTheme.Base" parent="Theme.AppCompat">
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+    </style>
+
+
+    <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/white</item>
     </style>
 </resources>
