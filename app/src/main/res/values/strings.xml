@@ -3,12 +3,16 @@
 
     <string name="app_name">Master</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">设置</string>
-    <string name="action_update">升级</string>
-    <string name="action_about">关于</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_main">MainActivity</string>
+
+
+
+    <string name="action_settings">设置</string>
+    <string name="action_update">升级</string>
+    <string name="action_about">关于</string>
+    <string name="action_exit">退出</string>
 
 </resources>

@@ -102,6 +102,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             case R.id.action_about:
                 new AboutDialog().show(getFragmentManager(), getResources().getString(R.string.action_about));
                 break;
+            case R.id.action_exit:
+                MainActivity.this.finish();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

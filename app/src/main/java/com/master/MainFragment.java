@@ -3,7 +3,6 @@ package com.master;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,8 +17,7 @@ import butterknife.InjectView;
  */
 public class MainFragment extends Fragment {
 
-    @InjectView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout mRefreshLayout;
+
     @InjectView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
