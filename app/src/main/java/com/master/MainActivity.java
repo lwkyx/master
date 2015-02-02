@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -17,7 +18,7 @@ import com.master.dialog.AboutDialog;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
 
     @InjectView(R.id.tb_custom)
     Toolbar toolbar;
@@ -58,9 +59,23 @@ public class MainActivity extends ActionBarActivity {
         //设置菜单列表
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         lvLeftMenu.setAdapter(arrayAdapter);
+        lvLeftMenu.setOnItemClickListener(this);
+
+        if(savedInstanceState == null){
+            //bug: mToolbar.setTitle() not working here.
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new MainFragment())
+                    .commit();
+        }else{
+            getSupportActionBar().setTitle(savedInstanceState.getString("title"));
+        }
+
 
 
     }
+
+
+
 
 
 
@@ -90,5 +105,10 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
     }
 }
