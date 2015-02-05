@@ -70,14 +70,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
             getSupportActionBar().setTitle(savedInstanceState.getString("title"));
         }
 
-
-
     }
-
-
-
-
-
 
 
     @Override

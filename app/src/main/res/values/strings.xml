@@ -15,4 +15,15 @@
     <string name="action_about">关于</string>
     <string name="action_exit">退出</string>
 
+    
+    <string-array name="scence_titles">
+        <item>问候/感谢/交际/询问</item>
+        <item>游客问询</item>
+        <item>搭乘飞机</item>
+        <item>住宿</item>
+        <item>用餐</item>
+        <item>观光</item>
+        <item>购物</item>
+        <item>紧急情况</item>
+    </string-array>
 </resources>
