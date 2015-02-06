@@ -1,5 +1,6 @@
 package com.master;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.master.activity.SearchActivity;
 import com.master.dialog.AboutDialog;
 
 import butterknife.ButterKnife;
@@ -86,6 +88,9 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
+            case R.id.action_search:
+                startActivity(new Intent(this, SearchActivity.class));
+                break;
             case R.id.action_settings:
 
                 break;

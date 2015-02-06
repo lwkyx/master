@@ -7,15 +7,12 @@
     <string name="close">close</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_main">MainActivity</string>
-
-
-
     <string name="action_settings">设置</string>
     <string name="action_update">升级</string>
     <string name="action_about">关于</string>
     <string name="action_exit">退出</string>
+    <string name="action_serach">search</string>
 
-    
     <string-array name="scence_titles">
         <item>问候/感谢/交际/询问</item>
         <item>游客问询</item>
@@ -26,4 +23,7 @@
         <item>购物</item>
         <item>紧急情况</item>
     </string-array>
+
+    <string name="title_activity_search">SearchActivity</string>
+
 </resources>
