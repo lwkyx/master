@@ -11,7 +11,7 @@ import com.master.R;
 /**
  * Created by YeXiang on 15/2/2.
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>  implements View.OnClickListener{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
 //    LayoutInflater inflater;
 //
@@ -23,6 +23,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 //    public List<ScenceInfo> mData = null;
 
     public String[] TITLES;
+    private MyItemClickListener mListener;
 
 //    public  RecyclerAdapter(List<ScenceInfo> data){
 //        mData = data;
@@ -32,24 +33,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         TITLES = titles;
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
 
-    public  static class MyViewHolder extends RecyclerView.ViewHolder {
+    public  static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public final TextView tvList;
-        public MyViewHolder(View itemView) {
+        private MyItemClickListener listener;
+
+        public MyViewHolder(View itemView , MyItemClickListener listener) {
             super(itemView);
+            this.listener = listener;
             tvList = (TextView) itemView.findViewById(R.id.tv_list);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+                if(listener != null) {
+                    listener.onItemClick(v, getPosition());
+                }
         }
     }
+
+
+    /** 设置item点击事件 **/
+    public void setOnItemClickListener(MyItemClickListener listener) {
+        this.mListener = listener;
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false);
-        return new MyViewHolder(v);
+        return new MyViewHolder(v, mListener);
     }
+
+
+
 
 
 
@@ -64,6 +83,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return TITLES.length;
     }
 
-
+    public interface MyItemClickListener{
+        public void onItemClick(View v, int position);
+    }
 }
 
