@@ -1,21 +1,91 @@
 package com.master.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.ComponentName;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.IntentCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.master.BaseActivty;
+import com.master.MainActivity;
 import com.master.R;
+import com.master.database.DatabaseUtils;
 
-public class CardActivity extends ActionBarActivity {
+import java.io.IOException;
+import java.util.Map;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+public class CardActivity extends BaseActivty {
+
+    @InjectView(R.id.tb_custom)
+    Toolbar toolbar;
+    @InjectView(R.id.recyclerview_card)
+    RecyclerView mRecyclerView;
+
+    private Map<String, String> provinceMap;
+    private int mId;
+    private static final String DBNAME = "traveleng.db";
+    private static final String TABLE_NAME1 = "traveleng_sent";
+    private SQLiteDatabase db;
+    private String[] provinceArray;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
 
+        ButterKnife.inject(this);
+        initToolbar();
+        initDB();
 
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        mRecyclerView.setAdapter(adapter);
+//        adapter.setOnItemClickListener(this);
+
+
+    }
+
+    private void initDB() {
+        mId = getIntent().getIntExtra("id", 0);
+        try {
+            DatabaseUtils.copyDB(CardActivity.this, DBNAME);
+            if (db == null) {
+                db = openOrCreateDatabase(getFilesDir().getAbsolutePath() + "/"
+                        + DBNAME, Context.MODE_PRIVATE, null);
+            }
+            provinceMap = DatabaseUtils.getItem(db, TABLE_NAME1, mId);
+            provinceArray = provinceMap.keySet().toArray(
+                    new String[provinceMap.size()]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initToolbar() {
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //设置标题颜色
+        //toolbar退后
+        toolbar.setNavigationIcon(R.drawable.ic_up);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navigateUpToFromChild(CardActivity.this,
+                        IntentCompat.makeMainActivity(new ComponentName(CardActivity.this,
+                                MainActivity.class)));
+            }
+        });
     }
 
 
@@ -23,7 +93,7 @@ public class CardActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_card, menu);
-        Log.e("Test","Test");
+        Log.e("Test", "Test");
         return true;
     }
 
@@ -41,4 +111,6 @@ public class CardActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }

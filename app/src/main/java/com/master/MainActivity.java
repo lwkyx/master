@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +20,10 @@ import com.master.dialog.AboutDialog;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity implements AdapterView.OnItemClickListener {
+/**
+ * Created by Administrator on 2015/6/4.
+ */
+public  class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     @InjectView(R.id.tb_custom)
     Toolbar toolbar;
@@ -41,11 +44,11 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         ButterKnife.inject(this);
 
         toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //è®¾ç½®æ ‡é¢˜é¢œè‰²
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //ÉèÖÃ±êÌâÑÕÉ«
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true); //è®¾ç½®è¿”å›é”®å¯ç”¨
+        getSupportActionBar().setHomeButtonEnabled(true); //ÉèÖÃ·µ»Ø¼ü¿ÉÓÃ
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //åˆ›å»ºè¿”å›é”®ï¼Œå¹¶å®ç°æ‰“å¼€å…³/é—­ç›‘å¬
+        //´´½¨·µ»Ø¼ü£¬²¢ÊµÏÖ´ò¿ª¹Ø/±Õ¼àÌı
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -58,7 +61,7 @@ public class MainActivity extends ActionBarActivity implements AdapterView.OnIte
         };
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //è®¾ç½®èœå•åˆ—è¡¨
+        //ÉèÖÃ²Ëµ¥ÁĞ±í
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         lvLeftMenu.setAdapter(arrayAdapter);
         lvLeftMenu.setOnItemClickListener(this);

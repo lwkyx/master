@@ -1,13 +1,13 @@
 package com.master;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 /**
  * Created by Administrator on 2015/2/6.
  */
-public class BaseActivty extends ActionBarActivity {
+public class BaseActivty extends AppCompatActivity {
 
     private Toolbar mActionBarToolbar;
 
