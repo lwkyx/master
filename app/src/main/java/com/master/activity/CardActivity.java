@@ -2,9 +2,11 @@ package com.master.activity;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.IntentCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,10 @@ import android.view.View;
 import com.master.BaseActivty;
 import com.master.MainActivity;
 import com.master.R;
+import com.master.adapter.CardRecyclerAdapter;
+import com.master.adapter.MyItemClickListener;
+import com.master.api.PlayTask;
+import com.master.api.TtsUtil;
 import com.master.database.DatabaseUtils;
 
 import java.io.IOException;
@@ -25,14 +31,14 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CardActivity extends BaseActivty {
+public class CardActivity extends BaseActivty implements MyItemClickListener {
 
     @InjectView(R.id.tb_custom)
     Toolbar toolbar;
     @InjectView(R.id.recyclerview_card)
     RecyclerView mRecyclerView;
 
-    private Map<String, String> provinceMap;
+    private Map<String, String> travelengMap;
     private int mId;
     private static final String DBNAME = "traveleng.db";
     private static final String TABLE_NAME1 = "traveleng_sent";
@@ -49,25 +55,29 @@ public class CardActivity extends BaseActivty {
         initToolbar();
         initDB();
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-//        mRecyclerView.setAdapter(adapter);
-//        adapter.setOnItemClickListener(this);
+
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        CardRecyclerAdapter adapter = new CardRecyclerAdapter(provinceArray, travelengMap);
+       mRecyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
+
 
 
     }
 
     private void initDB() {
-        mId = getIntent().getIntExtra("id", 0);
+        mId = getIntent().getIntExtra(Intent.EXTRA_TEXT, 0);
         try {
             DatabaseUtils.copyDB(CardActivity.this, DBNAME);
             if (db == null) {
                 db = openOrCreateDatabase(getFilesDir().getAbsolutePath() + "/"
                         + DBNAME, Context.MODE_PRIVATE, null);
             }
-            provinceMap = DatabaseUtils.getItem(db, TABLE_NAME1, mId);
-            provinceArray = provinceMap.keySet().toArray(
-                    new String[provinceMap.size()]);
+            travelengMap = DatabaseUtils.getItem(db, TABLE_NAME1, mId);
+            provinceArray = travelengMap.keySet().toArray(
+                    new String[travelengMap.size()]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,4 +123,10 @@ public class CardActivity extends BaseActivty {
     }
 
 
+    @Override
+    public void onItemClick(View v, int position) {
+        Snackbar.make(v, travelengMap.get(provinceArray[position]), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        new PlayTask(this).execute(TtsUtil.getMp3URL(travelengMap.get(provinceArray[position])));
+    }
 }

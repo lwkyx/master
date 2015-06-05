@@ -12,7 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.master.BaseActivty;
-import com.master.MainFragment;
+import com.master.MainActivity;
 import com.master.R;
 
 public class SearchActivity extends BaseActivty {
@@ -32,7 +32,7 @@ public class SearchActivity extends BaseActivty {
             public void onClick(View view) {
                 navigateUpToFromChild(SearchActivity.this,
                         IntentCompat.makeMainActivity(new ComponentName(SearchActivity.this,
-                                MainFragment.MainActivity.class)));
+                               MainActivity.class)));
             }
         });
 

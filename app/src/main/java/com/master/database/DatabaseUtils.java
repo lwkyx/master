@@ -15,6 +15,11 @@ import java.util.Map;
  * Created by Administrator on 2015/6/4.
  */
 public class DatabaseUtils {
+
+
+    public static final String DBNAME = "traveleng.db";
+    public static final String TABLE_NAME = "traveleng_cate";
+
     /**
      * 先检测应用程序data目录下面是否已经存在该文件。不存在则 复制assert目录下文件到应用程序data目录下面
      *
@@ -38,6 +43,7 @@ public class DatabaseUtils {
         fos.close();
         is.close();
     }
+
 
 
     public static Map<String, Integer> getClassify(SQLiteDatabase db, String tableName) {

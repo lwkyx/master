@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.master.R;
 
+import java.util.Map;
+
 /**
  * Created by Administrator on 2015/6/4.
  */
@@ -15,29 +17,33 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
 
 
     private static final String TAG = "CardRecyclerAdapter";
-    private String[] engStrs;
+//    private String[] engStrs;
     private String[] chStrs;
+    private Map<String, String> maps;
+    private MyItemClickListener mListener;
 
-    private CardRecyclerAdapter(String[] engStrs, String[] chStrs) {
-        this.engStrs = engStrs;
+    public CardRecyclerAdapter(String[] chStrs, Map<String, String> maps) {
+//        this.engStrs = engStrs;
+        this.maps = maps;
         this.chStrs = chStrs;
     }
 
     public class CardHolder extends  RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvEng;
         private TextView tvCh;
-        private CardItemClickListener mListener;
+        private MyItemClickListener listener;
 
-        public CardHolder(View itemView) {
+        public CardHolder(View itemView, MyItemClickListener listener) {
             super(itemView);
+            this.listener = listener;
             tvEng = (TextView) itemView.findViewById(R.id.tv_eng);
             tvCh = (TextView) itemView.findViewById(R.id.tv_ch);
             itemView.setOnClickListener(this);
         }
         @Override
         public void onClick(View v) {
-            if(mListener != null) {
-                mListener.onItemClick(v, getPosition());
+            if(listener != null) {
+                listener.onItemClick(v, getPosition());
             }
         }
     }
@@ -45,13 +51,13 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     @Override
     public CardHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View rootView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false);
-        return new CardHolder(rootView);
+        return new CardHolder(rootView, mListener);
     }
 
     @Override
     public void onBindViewHolder(CardHolder holder, int position) {
         holder.tvCh.setText(chStrs[position]);
-        holder.tvEng.setText(engStrs[position]);
+        holder.tvEng.setText(maps.get(chStrs[position]));
     }
 
     @Override
@@ -59,8 +65,12 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
         return chStrs.length;
     }
 
-    public interface CardItemClickListener {
-        public void onItemClick(View v, int position);
+
+    /**
+     * 设置item点击事件
+     **/
+    public void setOnItemClickListener(MyItemClickListener listener) {
+        this.mListener = listener;
     }
 
 }
