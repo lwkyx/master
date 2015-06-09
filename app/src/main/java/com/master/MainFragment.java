@@ -93,7 +93,7 @@ public class MainFragment extends Fragment implements MyItemClickListener {
         }else if (dbName.equals("101_travel.db")){
             data.put("dbName","101_travel.db");
             data.put("tableName","sentence_list");
-            data.put("id","indexid");
+            data.put("id","sub_indexid");
             data.put("zh","topic_cn");
             data.put("en","topic_x");
             data.put("idNum",travelengMap.get(travelengArray[position]));
