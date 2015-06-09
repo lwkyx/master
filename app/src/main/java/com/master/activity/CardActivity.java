@@ -2,7 +2,6 @@ package com.master.activity;
 
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.master.BaseActivty;
 import com.master.MainActivity;
@@ -39,12 +39,15 @@ public class CardActivity extends BaseActivty implements MyItemClickListener {
     RecyclerView mRecyclerView;
 
     private Map<String, String> travelengMap;
-    private int mId;
-    private static final String DBNAME = "traveleng.db";
-    private static final String TABLE_NAME1 = "traveleng_sent";
+    private int mId;//ID号码
+    private String mIdString; //id字段名
+    private String mZh; //中文字段名
+    private String mEn; //外文字段名
+    private String mDbName  ;
+    private String mTableName ;
     private SQLiteDatabase db;
     private String[] provinceArray;
-
+    private Map<String,Object> mData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class CardActivity extends BaseActivty implements MyItemClickListener {
         setContentView(R.layout.activity_card);
 
         ButterKnife.inject(this);
+        initData ( );
         initToolbar();
         initDB();
 
@@ -67,15 +71,26 @@ public class CardActivity extends BaseActivty implements MyItemClickListener {
 
     }
 
+    private void initData() {
+        //获取data
+        mData = (Map<String, Object>) getIntent().getSerializableExtra("data");
+        mDbName = (String) mData.get("dbName");
+        mTableName = (String) mData.get("tableName");
+        mIdString = (String) mData.get("id");
+        mZh = (String) mData.get("zh");
+        mEn = (String) mData.get("en");
+        mId = (int) mData.get("idNum");
+
+    }
+
     private void initDB() {
-        mId = getIntent().getIntExtra(Intent.EXTRA_TEXT, 0);
         try {
-            DatabaseUtils.copyDB(CardActivity.this, DBNAME);
+            DatabaseUtils.copyDB(CardActivity.this, mDbName);
             if (db == null) {
                 db = openOrCreateDatabase(getFilesDir().getAbsolutePath() + "/"
-                        + DBNAME, Context.MODE_PRIVATE, null);
+                        + mDbName, Context.MODE_PRIVATE, null);
             }
-            travelengMap = DatabaseUtils.getItem(db, TABLE_NAME1, mId);
+            travelengMap = DatabaseUtils.getItem(db, mTableName,mIdString,mZh,mEn ,mId);
             provinceArray = travelengMap.keySet().toArray(
                     new String[travelengMap.size()]);
         } catch (IOException e) {
@@ -85,8 +100,8 @@ public class CardActivity extends BaseActivty implements MyItemClickListener {
 
     private void initToolbar() {
         toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //���ñ�����ɫ
-        //toolbar�˺�
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff"));
+        //toolbar�˺�
         toolbar.setNavigationIcon(R.drawable.ic_up);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,8 +140,20 @@ public class CardActivity extends BaseActivty implements MyItemClickListener {
 
     @Override
     public void onItemClick(View v, int position) {
-        Snackbar.make(v, travelengMap.get(provinceArray[position]), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-        new PlayTask(this).execute(TtsUtil.getMp3URL(travelengMap.get(provinceArray[position])));
+        if (mDbName.equals("traveleng.db")){
+            Snackbar.make(v, travelengMap.get(provinceArray[position]), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+            new PlayTask(this).execute(TtsUtil.getMp3URL(travelengMap.get(provinceArray[position])));
+        }else if(mDbName.equals("101_travel.db")){
+            if (db == null) {
+                db = openOrCreateDatabase(getFilesDir().getAbsolutePath() + "/"
+                        + mDbName, Context.MODE_PRIVATE, null);
+            }
+           String mp3Path =  DatabaseUtils.getMp3Path(db,travelengMap.get(provinceArray[position]));
+
+            Toast.makeText(this,mp3Path,Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 }

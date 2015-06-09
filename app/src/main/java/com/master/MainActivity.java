@@ -3,6 +3,9 @@ package com.master;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -34,7 +37,8 @@ public  class MainActivity extends AppCompatActivity implements AdapterView.OnIt
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayAdapter arrayAdapter;
-    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private String[] lvs = {"è‹±è¯­", "æ—¥è¯­" };
+    private boolean isDrawerOpen ;
 
 
     @Override
@@ -44,24 +48,26 @@ public  class MainActivity extends AppCompatActivity implements AdapterView.OnIt
         ButterKnife.inject(this);
 
         toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //ÉèÖÃ±êÌâÑÕÉ«
+        toolbar.setTitleTextColor(Color.parseColor("#ffffff")); //è®¾ç½®æ ‡é¢˜é¢œè‰²
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true); //ÉèÖÃ·µ»Ø¼ü¿ÉÓÃ
+        getSupportActionBar().setHomeButtonEnabled(true); //è®¾ç½®è¿”å›é”®å¯ç”¨
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //´´½¨·µ»Ø¼ü£¬²¢ÊµÏÖ´ò¿ª¹Ø/±Õ¼àÌı
+        //åˆ›å»ºè¿”å›é”®ï¼Œå¹¶å®ç°æ‰“å¼€å…³/é—­ç›‘å¬
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
+                isDrawerOpen = true;
                 super.onDrawerOpened(drawerView);
             }
             @Override
             public void onDrawerClosed(View drawerView) {
+                isDrawerOpen = false;
                 super.onDrawerClosed(drawerView);
             }
         };
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //ÉèÖÃ²Ëµ¥ÁĞ±í
+        //è®¾ç½®èœå•åˆ—è¡¨
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         lvLeftMenu.setAdapter(arrayAdapter);
         lvLeftMenu.setOnItemClickListener(this);
@@ -69,7 +75,7 @@ public  class MainActivity extends AppCompatActivity implements AdapterView.OnIt
         if(savedInstanceState == null){
             //bug: mToolbar.setTitle() not working here.
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
+                    .add(R.id.container, new MainFragment("traveleng.db","traveleng_cate","id","cate_name_zh"))
                     .commit();
         }else{
             getSupportActionBar().setTitle(savedInstanceState.getString("title"));
@@ -80,16 +86,12 @@ public  class MainActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             case R.id.action_search:
                 startActivity(new Intent(this, SearchActivity.class));
@@ -113,6 +115,41 @@ public  class MainActivity extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Fragment fragment = null;
+        switch (position){
+            case 0:
+                fragment = new MainFragment("traveleng.db","traveleng_cate","id","cate_name_zh");
+                break;
 
+            case 1:
+                fragment = new MainFragment("101_travel.db","sub_main_menu","indexid","topic_cn");
+                break;
+
+        }
+        replace(fragment);
+        menuToggle();
+
+    }
+
+
+    private void menuToggle(){
+        if (isDrawerOpen){
+            mDrawerLayout.closeDrawers();
+        }else{
+
+        }
+    }
+
+
+    public void replace(Fragment fragment)
+    {
+        if (fragment == null)
+        {
+            return;
+        }
+         FragmentManager fm = getSupportFragmentManager();
+         FragmentTransaction ft = fm.beginTransaction();
+         ft.replace(R.id.container, fragment);
+         ft.commit();
     }
 }

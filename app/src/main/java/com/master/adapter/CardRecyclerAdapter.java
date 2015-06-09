@@ -66,9 +66,7 @@ public class CardRecyclerAdapter extends RecyclerView.Adapter<CardRecyclerAdapte
     }
 
 
-    /**
-     * 设置item点击事件
-     **/
+
     public void setOnItemClickListener(MyItemClickListener listener) {
         this.mListener = listener;
     }

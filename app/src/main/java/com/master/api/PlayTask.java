@@ -16,8 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by Administrator on 2015/6/5.
- * ÏÂÔØ²¢²¥·ÅttsµÄÓïÒô
+ * Created by Administrator on 2015/6/5.ï¿½ï¿½ï¿½ï¿½ï¿½
  */
 public class PlayTask extends AsyncTask<String, Void, Void> {
     private Context context;

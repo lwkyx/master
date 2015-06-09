@@ -21,7 +21,7 @@ public class DatabaseUtils {
     public static final String TABLE_NAME = "traveleng_cate";
 
     /**
-     * ÏÈ¼ì²âÓ¦ÓÃ³ÌĞòdataÄ¿Â¼ÏÂÃæÊÇ·ñÒÑ¾­´æÔÚ¸ÃÎÄ¼ş¡£²»´æÔÚÔò ¸´ÖÆassertÄ¿Â¼ÏÂÎÄ¼şµ½Ó¦ÓÃ³ÌĞòdataÄ¿Â¼ÏÂÃæ
+     * å…ˆæ£€æµ‹åº”ç”¨ç¨‹åºdataç›®å½•ä¸‹é¢æ˜¯å¦å·²ç»å­˜åœ¨è¯¥æ–‡ä»¶ã€‚ä¸å­˜åœ¨åˆ™ å¤åˆ¶assertç›®å½•ä¸‹æ–‡ä»¶åˆ°åº”ç”¨ç¨‹åºdataç›®å½•ä¸‹é¢
      *
      * @param context
      * @param fileName
@@ -46,13 +46,13 @@ public class DatabaseUtils {
 
 
 
-    public static Map<String, Integer> getClassify(SQLiteDatabase db, String tableName) {
+    public static Map<String, Integer> getClassify(SQLiteDatabase db, String tableName,String id, String name ) {
         Map<String, Integer> classifyMap = new LinkedHashMap<String, Integer>();
-        Cursor cursor = db.query(tableName, new String[] { "id", "cate_name_zh" },null,null,null,null,null);
+        Cursor cursor = db.query(tableName, new String[] { id, name },null,null,null,null,null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                classifyMap.put(cursor.getString(cursor.getColumnIndex("cate_name_zh")),
-                        cursor.getInt(cursor.getColumnIndex("id")));
+                classifyMap.put(cursor.getString(cursor.getColumnIndex(name)),
+                        cursor.getInt(cursor.getColumnIndex(id)));
             }
         }
         if (cursor != null && !cursor.isClosed())
@@ -63,14 +63,14 @@ public class DatabaseUtils {
     }
 
 
-    public static Map<String, String> getItem(SQLiteDatabase db, String tableName, int pcode) {
+    public static Map<String, String> getItem(SQLiteDatabase db, String tableName, String id ,String zh , String en , int pcode) {
         Map<String, String> itemMap = new LinkedHashMap<String, String>();
-        Cursor cursor = db.query(tableName, new String[] { "cate_id", "sent_zh", "sent_en" }, "cate_id=?",
+        Cursor cursor = db.query(tableName, new String[] { id, zh, en }, id+"=?",
                 new String[] { "" + pcode }, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                itemMap.put(cursor.getString(cursor.getColumnIndex("sent_zh")),
-                        cursor.getString(cursor.getColumnIndex("sent_en")));
+                itemMap.put(cursor.getString(cursor.getColumnIndex(zh)),
+                        cursor.getString(cursor.getColumnIndex(en)));
             }
         }
         if (cursor != null && !cursor.isClosed())
@@ -78,6 +78,25 @@ public class DatabaseUtils {
             cursor.close();
         }
         return itemMap;
+    }
+
+
+
+    public static  String getMp3Path(SQLiteDatabase db ,String topic_x ){
+        Cursor cursor = db.query("sentence_list", new String[] { "dialogue_mp3" }, "topic_x=?",
+                new String[] { "" + topic_x }, null, null, null);
+        String mp3Path = null;
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+            mp3Path = cursor.getString(cursor.getColumnIndex("dialogue_mp3"));
+            }
+        }
+        if (cursor != null && !cursor.isClosed())
+        {
+            cursor.close();
+        }
+
+        return mp3Path;
     }
 
 }
